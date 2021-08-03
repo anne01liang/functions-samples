@@ -58,14 +58,6 @@ exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
  * Send an account deleted email confirmation to users who delete their accounts.
  */
 // [START onDeleteTrigger]
-exports.sendByeEmail = functions.auth.user().onDelete((user) => {
-// [END onDeleteTrigger]
-  const email = user.email;
-  const displayName = user.displayName;
-
-  return sendGoodbyeEmail(email, displayName);
-});
-// [END sendByeEmail]
 
 // Sends a welcome email to the given user.
 async function sendWelcomeEmail(email, displayName) {
@@ -75,24 +67,10 @@ async function sendWelcomeEmail(email, displayName) {
   };
 
   // The user subscribed to the newsletter.
-  mailOptions.subject = `Welcome to ${APP_NAME}!`;
-  mailOptions.text = `Hey ${displayName || ''}! Welcome to ${APP_NAME}. I hope you will enjoy our service.`;
+  mailOptions.subject = `Check in!`;
+  mailOptions.text = `Hey ${displayName || ''}! You're doing amazing! Just a reminder to check in on yourself and your loved ones :).`;
   await mailTransport.sendMail(mailOptions);
-  functions.logger.log('New welcome email sent to:', email);
+  functions.logger.log('Email sent to:', email);
   return null;
 }
 
-// Sends a goodbye email to the given user.
-async function sendGoodbyeEmail(email, displayName) {
-  const mailOptions = {
-    from: `${APP_NAME} <noreply@firebase.com>`,
-    to: email,
-  };
-
-  // The user unsubscribed to the newsletter.
-  mailOptions.subject = `Bye!`;
-  mailOptions.text = `Hey ${displayName || ''}!, We confirm that we have deleted your ${APP_NAME} account.`;
-  await mailTransport.sendMail(mailOptions);
-  functions.logger.log('Account deletion confirmation email sent to:', email);
-  return null;
-}

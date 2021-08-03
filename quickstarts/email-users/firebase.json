@@ -1,6 +1,11 @@
 {
   "hosting": {
-    "public": "./public"
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
   },
   "emulators": {
     "auth": {
@@ -15,5 +20,11 @@
     "ui": {
       "enabled": true
     }
+  },
+  "functions": {
+    "source": "functions"
+  },
+  "database": {
+    "rules": "database.rules.json"
   }
 }
